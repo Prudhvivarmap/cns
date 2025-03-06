@@ -1,0 +1,21 @@
+import hmac
+import hashlib
+
+def generate_mac(message, secret_key):
+    
+    mac = hmac.new(secret_key.encode(), message.encode(), hashlib.sha256)
+    return mac.hexdigest()
+def verify_mac(message, secret_key, expected_mac):
+    generated_mac = generate_mac(message, secret_key)
+    return hmac.compare_digest(generated_mac, expected_mac)
+if __name__ == "__main__":
+    message = "Hello, this is a secret message."
+    secret_key = "my_secret_key"
+
+    # Generate a MAC
+    mac = generate_mac(message, secret_key)
+    print("Generated MAC:", mac)
+
+    # Verify the MAC
+    is_valid = verify_mac(message, secret_key, mac)
+    print("Is the MAC valid?", is_valid)
